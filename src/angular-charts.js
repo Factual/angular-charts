@@ -430,6 +430,7 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
       })
       .on("mouseleave", function(d) {  
         removeToolTip();
+        d3.select(this).classed('hover', false);
         config.mouseout(d, d3.event);
         scope.$apply();
       })
@@ -579,11 +580,13 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
        */
       bars.on("mouseover", function(d) { 
         // makeToolTip({ value: d.y, series: series[d.s], index: d.x}, d3.event);
+        d3.select(this).classed("hover", true);
         config.mouseover(d, d3.event);
         scope.$apply();
       })
       .on("mouseleave", function(d) {  
         // removeToolTip();
+        d3.select(this).classed("hover", false);
         config.mouseout(d, d3.event);
         scope.$apply();
       })
@@ -591,6 +594,8 @@ angular.module('angularCharts').directive('acChart', function($templateCache, $c
          updateToolTip(d3.event);
       })
       .on("click", function(d) {
+        el = d3.select(this)
+        el.classed("selected", !el.classed("selected"));
         config.click.call(d, d3.event);
         scope.$apply();
       });
